@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { MagazineCard, type MagazineItem } from "./magazine-card";
 
 const ITEMS: MagazineItem[] = [
@@ -186,93 +185,14 @@ const ITEMS: MagazineItem[] = [
   },
 ];
 
-const FILTERS = [
-  "All",
-  "Solo",
-  "Group",
-  "Project",
-  "Essay",
-  "Photo",
-  "Zine",
-  "Anthology",
-  "Research",
-] as const;
-
-type Filter = (typeof FILTERS)[number];
-
 export function MagazineGrid() {
-  const [filter, setFilter] = useState<Filter>("All");
-
-  const filtered = useMemo(
-    () => (filter === "All" ? ITEMS : ITEMS.filter((i) => i.category === filter)),
-    [filter]
-  );
-
   return (
-    <section id="index" className="border-b border-hairline">
-      {/* Section header */}
-      <div className="border-b border-hairline px-4 py-6">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4">
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <div className="text-[10px] uppercase tracking-[0.32em] text-[var(--muted)]">
-                Section 02 — The Index
-              </div>
-              <h2 className="mt-2 font-serif text-4xl leading-[0.95] sm:text-5xl">
-                A library of issues, zines & loose pages.
-              </h2>
-            </div>
-            <div className="hidden text-right text-[10px] uppercase tracking-[0.28em] text-[var(--muted)] sm:block">
-              <div>{filtered.length} entries</div>
-              <div className="opacity-70">Sorted by recency</div>
-            </div>
-          </div>
-
-          {/* Filter row */}
-          <div className="mt-2 flex flex-wrap gap-2">
-            {FILTERS.map((f) => {
-              const active = f === filter;
-              return (
-                <button
-                  key={f}
-                  onClick={() => setFilter(f)}
-                  className={
-                    "border px-3 py-1 text-[10px] uppercase tracking-[0.24em] transition-colors " +
-                    (active
-                      ? "border-[var(--foreground)] bg-[var(--foreground)] text-[var(--background)]"
-                      : "border-hairline text-[var(--muted)] hover:text-[var(--foreground)]")
-                  }
-                >
-                  {f}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+    <div className="mx-auto max-w-7xl">
+      <div className="grid grid-cols-2 gap-x-5 gap-y-12 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        {ITEMS.map((item, idx) => (
+          <MagazineCard key={item.id} item={item} index={idx} />
+        ))}
       </div>
-
-      {/* Grid */}
-      <div className="mx-auto max-w-7xl px-4 py-10">
-        <div className="grid grid-cols-2 gap-x-5 gap-y-12 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {filtered.map((item, idx) => (
-            <MagazineCard key={item.id} item={item} index={idx} />
-          ))}
-        </div>
-      </div>
-
-      {/* Pagination footer (decorative) */}
-      <div className="flex items-center justify-between border-t border-hairline px-4 py-4 text-[10px] uppercase tracking-[0.28em] text-[var(--muted)]">
-        <span>Page 01 of 12</span>
-        <div className="flex items-center gap-3">
-          <button className="link-underline">Prev</button>
-          <span className="text-[var(--foreground)]">01</span>
-          <span>02</span>
-          <span>03</span>
-          <span className="opacity-50">...</span>
-          <span>12</span>
-          <button className="link-underline">Next</button>
-        </div>
-      </div>
-    </section>
+    </div>
   );
 }

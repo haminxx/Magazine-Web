@@ -1,19 +1,15 @@
-import { IssueHeader } from "../../components/issue-header";
-import { MarqueeStrip } from "../../components/marquee-strip";
-import { AboutStrip } from "../../components/about-strip";
+import { ThemeToggle } from "../../components/theme-toggle";
 import { MagazineGrid } from "../../components/magazine-grid";
-import { SiteFooter } from "../../components/site-footer";
 
 export default function IssuesPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <IssueHeader />
-      <MarqueeStrip />
-      <main className="flex-1">
-        <AboutStrip />
+    <div className="relative min-h-screen w-full bg-[var(--background)] text-[var(--foreground)]">
+      <div className="fixed right-4 top-4 z-50">
+        <ThemeToggle />
+      </div>
+      <main className="px-4 pb-24 pt-20">
         <MagazineGrid />
       </main>
-      <SiteFooter />
     </div>
   );
 }

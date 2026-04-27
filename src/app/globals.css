@@ -1,11 +1,21 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --muted: #6b6b6b;
-  --line: rgba(255, 255, 255, 0.12);
-  --accent: #f5f5f5;
+/* Default = dark, so initial HTML paint matches the dark theme without JS. */
+:root,
+.dark {
+  --background: #0d0d0d;
+  --foreground: #f4f4f0;
+  --muted: #909090;
+  --line: rgba(244, 244, 240, 0.12);
+  --accent: #f4f4f0;
+}
+
+.light {
+  --background: #f4f4f0;
+  --foreground: #0d0d0d;
+  --muted: #707070;
+  --line: rgba(13, 13, 13, 0.12);
+  --accent: #0d0d0d;
 }
 
 @theme inline {
@@ -26,106 +36,33 @@ body {
   color: var(--foreground);
   font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 ::selection {
-  background: #ededed;
-  color: #0a0a0a;
+  background: var(--foreground);
+  color: var(--background);
 }
 
-/* Halftone / dot overlay used over the hero portrait */
-.halftone-mask {
-  -webkit-mask-image: radial-gradient(circle, #000 35%, transparent 36%);
-          mask-image: radial-gradient(circle, #000 35%, transparent 36%);
-  -webkit-mask-size: 4px 4px;
-          mask-size: 4px 4px;
-  -webkit-mask-position: 0 0;
-          mask-position: 0 0;
-}
-
-.grain {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.18;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.7 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-}
-
-.scanlines::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.04) 0,
-    rgba(255, 255, 255, 0.04) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  mix-blend-mode: overlay;
-  opacity: 0.35;
-}
-
-/* hairline borders */
 .border-hairline {
   border-color: var(--line);
 }
 
-/* Marquee */
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+/* Helvetica-leaning display stack for the "magazine" wordmark */
+.helv {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.animate-marquee {
-  animation: marquee 40s linear infinite;
-}
-
-/* Float bob for hero portrait */
-@keyframes bob {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate3d(0, -10px, 0) rotate(0.4deg);
-  }
-}
-
-.animate-bob {
-  animation: bob 6s ease-in-out infinite;
-  will-change: transform;
-}
-
-/* Soft pulse for status indicators */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.25; }
 }
-
 .animate-blink {
   animation: blink 1.6s ease-in-out infinite;
 }
 
-/* Underline on hover for nav links */
-.link-underline {
-  position: relative;
-}
-.link-underline::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 0;
-  height: 1px;
-  background: currentColor;
-  transition: width 0.3s ease;
-}
-.link-underline:hover::after {
-  width: 100%;
+/* Hide native cursor inside the duotone gallery — replaced with a glass chevron */
+.cursor-none,
+.cursor-none * {
+  cursor: none !important;
 }
