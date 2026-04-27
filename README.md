@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 1 + 1 = 3 — Magazine Web
 
-## Getting Started
+An editorial / magazine website built with Next.js + Tailwind, taking visual
+inspiration from:
 
-First, run the development server:
+- [hipdinosaur.com](https://hipdinosaur.com/) — the floating, dot-rendered
+  hero figure and the editorial top-bar / marquee aesthetic.
+- [adocs.co](https://adocs.co/) — the dense card grid of zines, books and
+  projects.
+
+Card hovers use a layered **progressive blur** reveal that animates info from
+the bottom of each cover.
+
+## Stack
+
+- Next.js 16 (App Router, Turbopack)
+- TypeScript
+- Tailwind CSS v4
+- `motion` (Framer Motion)
+- `clsx` + `tailwind-merge` for className composition
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+  app/
+    layout.tsx       # fonts + global shell
+    page.tsx         # page composition
+    globals.css      # design tokens, halftone & grain helpers
+  components/
+    top-bar.tsx      # status ribbon + nav
+    hero.tsx         # floating portrait + parallax + marquee
+    about-strip.tsx  # manifesto section
+    magazine-grid.tsx
+    magazine-card.tsx        # card with hover progressive blur
+    progressive-blur.tsx     # layered backdrop-blur with mask gradients
+    site-footer.tsx
+  lib/
+    utils.ts         # cn() helper
+public/
+  hero-portrait.png  # used by Hero
+```
